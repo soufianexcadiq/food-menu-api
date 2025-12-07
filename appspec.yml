@@ -1,11 +1,18 @@
 version: 0.0
 os: linux
+
 files:
   - source: /
     destination: /home/ec2-user/food-menu-api
 
 hooks:
-  AfterInstall:
+  BeforeInstall:
+    # First, make deploy.sh executable
+    - location: chmod.sh
+      timeout: 30
+      runas: ec2-user
+
+    # Then run deploy.sh to deploy your Docker container
     - location: deploy.sh
       timeout: 300
       runas: ec2-user
