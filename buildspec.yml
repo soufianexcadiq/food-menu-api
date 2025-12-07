@@ -1,0 +1,21 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin <AWS_ACCOUNT_ID>.dkr.ecr.us-east-1.amazonaws.com
+  build:
+    commands:
+      - echo Building Docker image...
+      - docker build -t food-menu-api .
+      - docker tag food-menu-api:latest <AWS_ACCOUNT_ID>.dkr.ecr.us-east-1.amazonaws.com/food-menu-api:latest
+  post_build:
+    commands:
+      - echo Pushing Docker image to ECR...
+      - docker push 712416034180.dkr.ecr.us-east-1.amazonaws.com/food-menu-api:latest
+
+artifacts:
+  files:
+    - appspec.yml
+    - deploy.sh
