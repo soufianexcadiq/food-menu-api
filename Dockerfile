@@ -1,5 +1,5 @@
 # Use official Python image
-FROM python:3.11-slim
+FROM public.ecr.aws/sam/build-python3.11:latest
 
 # Set work directory
 WORKDIR /app
